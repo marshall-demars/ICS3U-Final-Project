@@ -13,7 +13,7 @@ def game_scene():
    # this function is the main game game_scene
 
    # image banks for CircuitPython
-   image_bank_background = stage.Bank.from_bmp16("water,jpg")
+   image_bank_background = ("water,jpg")
 
    # create a stage for the background to show up on
    #    and set the frame rate to 60fps
