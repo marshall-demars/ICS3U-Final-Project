@@ -21,7 +21,7 @@ def game_scene():
    background = stage.Grid(image_bank_background, 10, 8)
 
    # a sprite that will be updated every frame
-   ball = stage.Sprite(image_bank_sprites, 5, 75, 66)
+   ball = stage.Sprite(image_bank_sprites, 2, 75, 66)
 
    # create a stage for the background to show up on
    #    and set the frame rate to 60fps
