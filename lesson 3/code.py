@@ -21,14 +21,14 @@ def game_scene():
    background = stage.Grid(image_bank_background, 10, 8)
 
    # a sprite that will be updated every frame
-   ball = stage.Sprite(image_bank_sprites, 5, 75, 66)
+   ship = stage.Sprite(image_bank_sprites, 5, 75, 66)
 
    # create a stage for the background to show up on
    #    and set the frame rate to 60fps
    game = stage.Stage(ugame.display, 60)
 
    # set the layers of all sprites, items show up in order
-   game.layers = [ball] + [background]
+   game.layers = [ship] + [background]
 
    # render all sprites
    #    most likely you will only render the background once per game scene
@@ -41,7 +41,7 @@ def game_scene():
        # update game logic
 
        # redraw Sprite
-       game.render_sprites([ball])
+       game.render_sprites([ship])
        game.tick()  # wait until refresh rate finishes
 
 
