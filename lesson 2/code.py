@@ -17,7 +17,7 @@ def game_scene():
 
    # set the background to image 0 in the image bank
    #    and the size (10x8 tiles of size 16x16)
-   background = stage.Grid(image_bank_background, 10, 8)
+   background = stage.Grid(image_bank_background, 16, 16)
 
    # create a stage for the background to show up on
    #    and set the frame rate to 60fps
