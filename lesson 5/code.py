@@ -23,7 +23,7 @@ def game_scene():
 
     # a sprite that will be updated every frame
     ball = stage.Sprite(
-        image_bank_sprites, 5, 75, constants.SCREEN_Y - (2 * constants.SPRITE_SIZE)
+        image_bank_sprites, 2, 75, constants.SCREEN_Y - (2 * constants.SPRITE_SIZE)
     )
 
     # create a stage for the background to show up on
