@@ -16,27 +16,27 @@ import stage
 import ugame
 
 def splash_scene():
-   # this function is the splash scene game loop
+    # this function is the splash scene game loop
 
-   # an image bank for CircuitPython
-   image_bank_mt_background = stage.Bank.from_bmp16("mt_game_studio.bmp")
+    # an image bank for CircuitPython
+    image_bank_mt_background = stage.Bank.from_bmp16("mt_game_studio.bmp")
 
-   # sets the background to image 0 in the bank
-   background = stage.Grid(
-       image_bank_mt_background, constants.SCREEN_X, constants.SCREEN_Y
-   )
+    # sets the background to image 0 in the bank
+    background = stage.Grid(
+        image_bank_mt_background, constants.SCREEN_X, constants.SCREEN_Y
+    )
 
-   # create a stage for the background to show up on
-   #  and set the frame rate to 60fps
-   game = stage.Stage(ugame.display, constants.FPS)
-   # set the layers, items show up in order
-   game.layers = [background]
-   # render background
-   game.render_block()
+    # create a stage for the background to show up on
+    #  and set the frame rate to 60fps
+    game = stage.Stage(ugame.display, constants.FPS)
+    # set the layers, items show up in order
+    game.layers = [background]
+    # render background
+    game.render_block()
 
-   while True:
-       time.sleep(1.0)
-       menu_scene()
+    while True:
+        time.sleep(1.0)
+        menu_scene()
 
 
 def menu_scene():
