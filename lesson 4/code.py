@@ -48,18 +48,18 @@ def game_scene():
         if keys & ugame.K_SELECT:
             print("Select")
         if keys & ugame.K_RIGHT:
-            ship.move(ship.x + 1, ship.y)
+            ball.move(ball.x + 1, ball.y)
         if keys & ugame.K_LEFT:
-            ship.move(ship.x - 1, ship.y)
+            ball.move(ball.x - 1, ball.y)
         if keys & ugame.K_UP:
-            ship.move(ship.x, ship.y - 1)
+            ball.move(ball.x, ball.y - 1)
         if keys & ugame.K_DOWN:
-            ship.move(ship.x, ship.y + 1)
+            ball.move(ball.x, ball.y + 1)
 
         # update game logic
 
         # redraw Sprite
-        game.render_sprites([ship])
+        game.render_sprites([ball])
         game.tick()  # wait until refresh rate finishes
 
 
