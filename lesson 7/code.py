@@ -134,9 +134,9 @@ def game_scene():
             else:
                 ball.move(0, ball.y)
         if keys & ugame.K_UP:
-            pass
+            ball.move(ball.x, ball.y - 1)
         if keys & ugame.K_DOWN:
-            pass
+            ball.move(ball.x, ball.y + 1)
 
         game.render_sprites([ball] + [squid])
         game.tick()
