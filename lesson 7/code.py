@@ -65,8 +65,9 @@ def menu_scene():
 def game_scene():
     # This function is the main game game_scene
 
-    image_bank_sprites = stage.Bank.from_bmp16("ball.bmp")
+    image_bank_background = stage.Bank.from_bmp16("ball.bmp")
     image_bank_sprites2 = stage.Bank.from_bmp16("space_aliens.bmp")
+    image_bank_sprites = stage.Bank.from_bmp16("ball.bmp")
 
     # buttons that you want to keep state information on
     a_button = constants.button_state["button_up"]
