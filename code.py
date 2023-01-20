@@ -208,9 +208,10 @@ def game_scene():
             else:
                 ball.move(0, ball.y)
         if keys & ugame.K_UP:
-            pass
+            ship.move(ship.x, ship.y - 1)
         if keys & ugame.K_DOWN:
-            pass
+            ship.move(ship.x, ship.y + 1)
+
 
 
         # each frame move the squid down, that are on the screen
