@@ -114,6 +114,19 @@ def menu_scene():
 def game_scene():
     # This function is the main game game_scene
 
+    def show_squid():
+        # this function takes an squid from off screen and moves it on screen
+        for squid_number in range(len(squid)):
+            if squid[squid_number].x < 0:
+                squid[squid_number].move(
+                    random.randint(
+                        0 + constants.SPRITE_SIZE,
+                        constants.SCREEN_X - constants.SPRITE_SIZE,
+                    ),
+                    constants.OFF_TOP_SCREEN,
+                )
+                break
+
     image_bank_background = stage.Bank.from_bmp16("ball.bmp")
     image_bank_sprites2 = stage.Bank.from_bmp16("space_aliens.bmp")
     image_bank_sprites = stage.Bank.from_bmp16("ball.bmp")
@@ -140,12 +153,23 @@ def game_scene():
         16,
     )
 
+    # create list of squids
+    squid = []
+    for squid_number in range(constants.TOTAL_NUMBER_OF_SQUIDS):
+        a_single_squid = stage.Sprite(
+            image_bank_sprites, 9, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
+        )
+        squid.append(a_single_squid)
+    # place 1 squid on the screen
+    show_squid()
+
+
     # create a stage for the background to show up on
     #  and set the frame rate to 60 fps
     game = stage.Stage(ugame.display, constants.FPS)
 
     # set the layers of all sprites, items show up in order
-    game.layers = [ball] + [squid] + [background]
+    game.layers = [squid] + [ball] + [background]
 
     # render all sprites
     game.render_block()
@@ -186,7 +210,20 @@ def game_scene():
         if keys & ugame.K_DOWN:
             ball.move(ball.x, ball.y + 1)
 
-        game.render_sprites([ball] + [squid])
+        # each frame move the squids down, that are on the screen
+        for squid_number in range(len(squids)):
+            if squids[squid_number].x > 0:
+                squids[squid_number].move(
+                    squids[squid_number].x,
+                    squids[squid_number].y + constants.SQUID_SPEED,
+                )
+                if squids[squid_number].y > constants.SCREEN_Y:
+                    squids[squid_number].move(
+                        constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
+                    )
+                    show_squid()
+
+        game.render_sprites(squids + lasers + [ship])
         game.tick()
 
 
