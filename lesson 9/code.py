@@ -223,7 +223,7 @@ def game_scene():
                     )
                     show_squid()
 
-        game.render_sprites(squids + lasers + [ship])
+        game.render_sprites(squids  + [ball])
         game.tick()
 
 
