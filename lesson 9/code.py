@@ -159,7 +159,7 @@ def game_scene():
     squid = []
     for squid_number in range(constants.TOTAL_NUMBER_OF_SQUIDS):
         a_single_squid = stage.Sprite(
-            image_bank_sprites, 9, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
+            image_bank_sprites2, 8, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
         )
         squid.append(a_single_squid)
     # place 1 squid on the screen
