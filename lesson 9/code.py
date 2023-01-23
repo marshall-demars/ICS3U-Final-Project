@@ -114,10 +114,6 @@ def menu_scene():
 def game_scene():
     # This function is the main game game_scene
 
-    # for score
-    squid_count = 0
-    score = 0
-
 
     def show_squid():
         # this function takes an alien from off screen and moves it on screen
@@ -162,7 +158,7 @@ def game_scene():
     show_squid()
 
     game = stage.Stage(ugame.display, 60)
-    game.layers = [score_text] + [ball] + squids + [background]
+    game.layers = [ball] + squids + [background]
     game.render_block()
 
     # repeat forever, game loop
@@ -208,11 +204,7 @@ def game_scene():
                     show_squid()
                     show_squid()
                     show_squid()
-                    score = score + 1
-                    score_text.clear()
-                    score_text.cursor(0, 0)
-                    score_text.move(1, 1)
-                    score_text.text("Score: {0}".format(score))
+
 
         for squid_number in range(len(squids)):
             if squids[squid_number].x > 0:
@@ -226,8 +218,6 @@ def game_scene():
                     ball.x + 15,
                     ball.y + 15,
                 ):
-                    time.sleep(3.0)
-                    game_over_scene(score)
         # redraw sprite list
         game.render_sprites([ball] + squids)
         game.tick()
