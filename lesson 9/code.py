@@ -11,6 +11,7 @@ import constants
 import stage
 import ugame
 
+
 def splash_scene():
     # this function is the splash scene game loop
 
