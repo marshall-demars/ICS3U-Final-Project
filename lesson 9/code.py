@@ -118,13 +118,6 @@ def game_scene():
     squid_count = 0
     score = 0
 
-    score_text = stage.Text(
-        width=29, height=14, font=None, palette=constants.RED_PALETTE, buffer=None
-    )
-    score_text.clear()
-    score_text.cursor(0, 0)
-    score_text.move(1, 1)
-    score_text.text("Score: {0}".format(score))
 
     def show_squid():
         # this function takes an alien from off screen and moves it on screen
