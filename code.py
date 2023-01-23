@@ -155,7 +155,7 @@ def game_scene():
     balls = []
     for ball_number in range(constants.TOTAL_NUMBER_OF_BALLS):
         a_single_ball = stage.Sprite(
-            image_bank_sprites, 8, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
+            image_bank_sprites2, 8, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
         )
         balls.append(a_single_ball)
     # place 1 alien on the screen
