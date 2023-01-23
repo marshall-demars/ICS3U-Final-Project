@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+
+# Created by: Marshall Demars and Cameron Diedrich
+# Created on: Jan 2023
+# This program is the "David Dash" program on the PyBadge
+
+
 import random
 import time
 

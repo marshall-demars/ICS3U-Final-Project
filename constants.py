@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+
+# Created by: Marshall Demars and Cameron Diedrich
+# Created on: Jan 2023
+# This is the constants
+
+
 SCREEN_X = 160
 SCREEN_Y = 128
 SCREEN_GRID_X = 10
