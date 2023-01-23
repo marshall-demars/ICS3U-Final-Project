@@ -218,6 +218,8 @@ def game_scene():
                     ball.x + 15,
                     ball.y + 15,
                 ):
+                    time.sleep(3.0)
+                    game_over_scene(score)
         # redraw sprite list
         game.render_sprites([ball] + squids)
         game.tick()
