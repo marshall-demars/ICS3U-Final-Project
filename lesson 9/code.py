@@ -164,7 +164,7 @@ def game_scene():
         a_single_squid = stage.Sprite(
             image_bank_sprites2, 8, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
         )
-        squids.append(a_single_squids)
+        squids.append(a_single_squid)
     # place 1 alien on the screen
     show_squid()
 
