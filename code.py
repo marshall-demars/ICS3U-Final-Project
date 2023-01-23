@@ -1,14 +1,9 @@
-#!/usr/bin/env python3
-
-# Created by: Marshall Demars
-# Created on: Jan 2023
-# This program is the "David Dash" program on the PyBadge
-
 import random
 import time
 
 import constants
 import stage
+import supervisor
 import ugame
 
 
@@ -59,11 +54,9 @@ def menu_scene():
 
     # set the background to image 0 in the image bank
     background = stage.Grid(
-        image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
+        image_bank_background, constants.SCREEN_X, constants.SCREEN_Y
     )
 
-    # used this program to split the image into tile:
-    #   https://ezgif.com/sprite-cutter/ezgif-5-818cdbcc3f66.png
     background.tile(2, 2, 0)  # blank white
     background.tile(3, 2, 1)
     background.tile(4, 2, 2)
@@ -99,7 +92,6 @@ def menu_scene():
     # set the layers of all sprites, items show up in order
     game.layers = text + [background]
 
-    # render all sprites
     game.render_block()
 
     # repeat forever, game loop
@@ -115,13 +107,25 @@ def menu_scene():
 def game_scene():
     # This function is the main game game_scene
 
-    def show_squid():
-        # this function takes an squid from off screen and moves it on screen
-        for squid_number in range(len(squids)):
-            if squids[squid_number].x < 0:
-                squids[squid_number].move(
+    # for score
+    ball_count = 0
+    score = 0
+
+    score_text = stage.Text(
+        width=29, height=14, font=None, palette=constants.RED_PALETTE, buffer=None
+    )
+    score_text.clear()
+    score_text.cursor(0, 0)
+    score_text.move(1, 1)
+    score_text.text("Score: {0}".format(score))
+
+    def show_ball():
+        # this function takes an alien from off screen and moves it on screen
+        for ball_number in range(len(balls)):
+            if balls[ball_number].x < 0:
+                balls[ball_number].move(
                     random.randint(
-                        0 + constants.SPRITE_SIZE,
+                        8,
                         constants.SCREEN_X - constants.SPRITE_SIZE,
                     ),
                     constants.OFF_TOP_SCREEN,
@@ -129,105 +133,152 @@ def game_scene():
                 break
 
     image_bank_background = stage.Bank.from_bmp16("ball.bmp")
-    image_bank_sprites2 = stage.Bank.from_bmp16("space_aliens.bmp")
     image_bank_sprites = stage.Bank.from_bmp16("ball.bmp")
+    image_bank_sprites2 = stage.Bank.from_bmp16("space_aliens.bmp")
 
-    # buttons that you want to keep state information on
-    a_button = constants.button_state["button_up"]
-    b_button = constants.button_state["button_up"]
-    start_button = constants.button_state["button_up"]
-    select_button = constants.button_state["button_up"]
-
-
-    # set the background to image 0 in the image bank
     background = stage.Grid(
         image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
     )
 
-    # a sprite that will be updated every frame
-    ball = stage.Sprite(
+    player = stage.Sprite(
         image_bank_sprites, 2, 75, constants.SCREEN_Y - (2 * constants.SPRITE_SIZE)
     )
 
-    squid = stage.Sprite(
-        image_bank_sprites,
+    ball = stage.Sprite(
+        image_bank_sprites2,
         8,
         int(constants.SCREEN_X / 2 - constants.SPRITE_SIZE / 2),
         16,
     )
 
     # create list of lasers for when we shoot
-    squids = []
-    for squid_number in range(constants.TOTAL_NUMBER_OF_SQUIDS):
-        a_single_squid = stage.Sprite(
+    balls = []
+    for ball_number in range(constants.TOTAL_NUMBER_OF_BALLS):
+        a_single_ball = stage.Sprite(
             image_bank_sprites, 8, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
         )
-        squids.append(a_single_squid)
-    # place 1 squid on the screen
-    show_squid()
+        balls.append(a_single_ball)
+    # place 1 alien on the screen
+    show_ball()
 
-    # create a stage for the background to show up on
-    #  and set the frame rate to 60 fps
-    game = stage.Stage(ugame.display, constants.FPS)
-
-    # set the layers of all sprites, items show up in order
-    game.layers = squids + [ball] + [background]
-
-    # render all sprites
+    game = stage.Stage(ugame.display, 60)
+    game.layers = [score_text] + [player] + balls + [background]
     game.render_block()
 
     # repeat forever, game loop
     while True:
         # get user input
         keys = ugame.buttons.get_pressed()
-        if keys & ugame.K_X != 0:
-            if a_button == constants.button_state["button_up"]:
-                a_button = constants.button_state["button_just_pressed"]
-            elif a_button == constants.button_state["button_just_pressed"]:
-                a_button = constants.button_state["button_still_pressed"]
-        else:
-            if a_button == constants.button_state["button_still_pressed"]:
-                a_button = constants.button_state["button_released"]
-            else:
-                a_button = constants.button_state["button_up"]
-        if keys & ugame.K_O:
-            pass
-        if keys & ugame.K_START:
-            pass
-        if keys & ugame.K_SELECT:
-            pass
-        if keys & ugame.K_RIGHT != 0:
-            if ball.x <= (constants.SCREEN_X - constants.SPRITE_SIZE):
-                ball.move((ball.x + constants.SPRITE_MOVEMENT_SPEED), ball.y)
-            else:
-                ball.move((constants.SCREEN_X - constants.SPRITE_SIZE), ball.y)
 
-        if keys & ugame.K_LEFT != 0:
-            if ball.x >= 0:
-                ball.move((ball.x - constants.SPRITE_MOVEMENT_SPEED), ball.y)
+        if keys & ugame.K_RIGHT:
+            if player.x <= (constants.SCREEN_X - constants.SPRITE_SIZE):
+                player.move((player.x + constants.SPRITE_MOVEMENT_SPEED), player.y)
             else:
-                ball.move(0, ball.y)
+                player.move((constants.SCREEN_X - constants.SPRITE_SIZE), player.y)
+
+        if keys & ugame.K_LEFT:
+            if player.x >= 0:
+                player.move((player.x - constants.SPRITE_MOVEMENT_SPEED), player.y)
+            else:
+                player.move(0, player.y)
+
         if keys & ugame.K_UP:
-            ship.move(ship.x, ship.y - 1)
+            if player.y >= (constants.OFF_TOP_SCREEN):
+                player.move(player.x, (player.y - constants.SPRITE_MOVEMENT_SPEED))
+            else:
+                player.move(player.x, 0)
+
         if keys & ugame.K_DOWN:
-            ship.move(ship.x, ship.y + 1)
+            if player.y <= (constants.SCREEN_Y - constants.SPRITE_SIZE):
+                player.move(player.x, (player.y + constants.SPRITE_MOVEMENT_SPEED))
+            else:
+                player.move(player.x, (constants.SCREEN_Y - constants.SPRITE_SIZE))
 
-
-
-        # each frame move the squid down, that are on the screen
-        for squid_number in range(len(squids)):
-            if squids[squid_number].x > 0:
-                squids[squid_number].move(
-                    squids[squid_number].x,
-                    squids[squid_number].y + constants.SQUID_SPEED,
+            # each frame move the aliens down, that are on the screen
+        for ball_number in range(len(balls)):
+            if balls[ball_number].x > 0:
+                balls[ball_number].move(
+                    balls[ball_number].x,
+                    balls[ball_number].y + constants.BALL_SPEED,
                 )
-                if squids[squid_number].y > constants.SCREEN_Y:
-                    squids[squid_number].move(
+                if balls[ball_number].y > constants.SCREEN_Y:
+                    balls[ball_number].move(
                         constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
                     )
-                    show_squid()
+                    show_ball()
+                    show_ball()
+                    show_ball()
+                    score = score + 1
+                    score_text.clear()
+                    score_text.cursor(0, 0)
+                    score_text.move(1, 1)
+                    score_text.text("Score: {0}".format(score))
 
-        game.render_sprites(squids + [ball])
+        for ball_number in range(len(balls)):
+            if balls[ball_number].x > 0:
+                if stage.collide(
+                    balls[ball_number].x + 1,
+                    balls[ball_number].y,
+                    balls[ball_number].x + 15,
+                    balls[ball_number].y + 15,
+                    player.x,
+                    player.y,
+                    player.x + 15,
+                    player.y + 15,
+                ):
+                    time.sleep(3.0)
+                    game_over_scene(score)
+        # redraw sprite list
+        game.render_sprites([player] + balls)
+        game.tick()
+
+
+def game_over_scene(final_score):
+    # this function is the game over scene
+
+    # image banks for CircuitPython
+    image_bank_2 = stage.Bank.from_bmp16("mt_game_studio.bmp")
+
+    # sets the background to image 0 in the image bank
+    background = stage.Grid(
+        image_bank_2, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
+    )
+
+    # add text objects
+    text = []
+    text1 = stage.Text(
+        width=29, height=14, font=None, palette=constants.BLUE_PALETTE, buffer=None
+    )
+    text1.move(22, 20)
+    text1.text("Final Score: {:0>2d}".format(final_score))
+    text.append(text1)
+
+    text2 = stage.Text(
+        width=29, height=14, font=None, palette=constants.BLUE_PALETTE, buffer=None
+    )
+    text2.move(43, 60)
+    text2.text("YOU'RE OUT!")
+    text.append(text2)
+
+    text3 = stage.Text(
+        width=29, height=14, font=None, palette=constants.BLUE_PALETTE, buffer=None
+    )
+    text3.move(32, 110)
+    text3.text("PRESS SELECT")
+    text.append(text3)
+
+    game = stage.Stage(ugame.display, constants.FPS)
+    game.layers = text + [background]
+    game.render_block()
+
+    # repeat forever, game loop
+    while True:
+        # get user input
+        keys = ugame.buttons.get_pressed()
+
+        if keys & ugame.K_SELECT != 0:
+            supervisor.reload()
+
         game.tick()
 
 
